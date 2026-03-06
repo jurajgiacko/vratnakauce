@@ -486,7 +486,7 @@
             úrok se počítá vždy z původní jistiny 85 000 Kč.
             Investice pronajímatele (TV, S&P 500) rostou <strong>složeným úročením</strong> (compound interest) —
             úrok se každý rok připočítává k jistině a dále se úročí.
-            Díky tomu pronajímatel časem vždy vydělá víc, než vrací nájemci.
+            Při aktivní investici (např. S&P 500) pronajímatel vydělá víc, než vrací nájemci.
         </div>
 
         <!-- PARAMS -->
@@ -503,7 +503,7 @@
             </div>
             <div class="param-card">
                 <div class="label">Termínovaný vklad</div>
-                <div class="val val-green">4,5 % p.a.</div>
+                <div class="val val-green">3,0 % p.a.</div>
                 <div class="sub">složené (compound)</div>
             </div>
             <div class="param-card">
@@ -513,14 +513,14 @@
             </div>
         </div>
 
-        <!-- BOD ZVRATU -->
+        <!-- KLÍČOVÝ INSIGHT -->
         <div class="callout">
             <div class="callout-icon">⚖️</div>
             <div class="callout-text" id="calloutText">
-                <span class="gold">Bod zvratu: rok —</span> — od tohoto roku pronajímatel na kauci vydělává
-                více ze složeného úroku na TV, než vyplácí nájemci v jednoduchém.
-                <strong>S&P 500:</strong> pronajímatel je v plusu od prvního roku.
-                Argument pro 5 %: pronajímatel má vždy výhodu z rozdílu compound vs. simple.
+                <strong>Termínovaný vklad (3 %):</strong> Pronajímatel na TV vydělá méně, než vyplácí nájemci — rozdíl je však minimální
+                (cca <span class="gold" id="tvDiffYear5">—</span> za 5 let).
+                <strong>S&P 500 (9 %):</strong> Pronajímatel je v plusu <span class="gold">od prvního roku</span>,
+                po 10 letech vydělá navíc <span class="gold" id="spNetCallout">—</span> nad rámec toho, co vrací nájemci.
             </div>
         </div>
 
@@ -576,15 +576,15 @@
                 <div class="summary-point">
                     <div class="sp-icon">2</div>
                     <div class="sp-content">
-                        <div class="sp-title">Pronajímatel může kauci zhodnotit</div>
-                        <div class="sp-desc">I konzervativní termínovaný vklad (4,5 % p.a., složené úročení) od <strong id="breakEvenText">roku —</strong> generuje pronajímateli víc, než kolik vyplácí nájemci. Po 10 letech čistý zisk pronajímatele: <strong id="tvNet10">—</strong>.</div>
+                        <div class="sp-title">Termínovaný vklad pokrývá většinu</div>
+                        <div class="sp-desc">Při uložení kauce na termínovaný vklad (průměr v ČR ~3 % p.a.) pronajímatel pokryje většinu úroků, které vyplácí nájemci. Reálný náklad pro pronajímatele po 5 letech je pouze <strong id="tvNet5">—</strong>, po 10 letech <strong id="tvNet10">—</strong>.</div>
                     </div>
                 </div>
                 <div class="summary-point">
                     <div class="sp-icon">3</div>
                     <div class="sp-content">
-                        <div class="sp-title">Při investici do S&P 500 ještě výhodněji</div>
-                        <div class="sp-desc">Průměrný roční výnos indexu S&P 500 je historicky ~9 %. Pronajímatel je v plusu <strong>od prvního roku</strong>. Po 10 letech čistý zisk: <strong id="spNet10">—</strong>.</div>
+                        <div class="sp-title">Investice do S&P 500 — pronajímatel vydělává</div>
+                        <div class="sp-desc">Historický průměr indexu S&P 500 je ~9 % p.a. Při investici kauce do ETF je pronajímatel v plusu <strong>od prvního roku</strong>. Po 10 letech čistý zisk nad rámec vráceného úroku: <strong id="spNet10">—</strong>.</div>
                     </div>
                 </div>
                 <div class="summary-point highlight-point">
@@ -605,7 +605,7 @@
         <footer>
             <p>Vratná kauce: jednoduché úročení 5 % p.a. (úrok vždy z původní jistiny) &middot; Investice pronajímatele: složené úročení (compound interest).<br>
             S&P 500: dlouhodobý historický průměr ~9 % p.a. (1928–2025). Skutečné výnosy se mohou lišit.<br>
-            Termínovaný vklad 4,5 % odpovídá průměrné sazbě v ČR (2024–2026).</p>
+            Termínovaný vklad 3 % odpovídá průměrné sazbě v ČR (2024–2026, zdroj: ČSOB, Česká spořitelna).</p>
         </footer>
     </div>
 
@@ -613,7 +613,7 @@
     <script>
         const D = 85000;
         const R_SIMPLE = 0.05;
-        const R_TV = 0.045;
+        const R_TV = 0.03;
         const R_SP = 0.09;
         const YEARS = 15;
         const HIGHLIGHTS = new Set([1, 2, 3, 5, 10]);
@@ -624,6 +624,7 @@
         const tbody = document.getElementById('tableBody');
         const labels = [], dataSimple = [], dataTV = [], dataSP = [];
         let breakEvenYear = null;
+        let tvNet5 = 0, spNet5 = 0;
 
         for (let y = 1; y <= YEARS; y++) {
             const simpleTotal = D + D * R_SIMPLE * y;
@@ -658,15 +659,21 @@
             `;
             tbody.appendChild(tr);
 
+            if (y === 5) {
+                tvNet5 = tvNet;
+                spNet5 = spNet;
+                document.getElementById('tvNet5').textContent = fmtSign(tvNet);
+            }
             if (y === 10) {
                 document.getElementById('tvNet10').textContent = fmtSign(tvNet);
                 document.getElementById('spNet10').textContent = fmtSign(spNet);
             }
         }
 
-        document.getElementById('breakEvenText').textContent = `roku ${breakEvenYear}`;
-        document.getElementById('calloutText').innerHTML =
-            `<span class="gold">Bod zvratu: rok ${breakEvenYear}</span> — od tohoto roku pronajímatel na kauci vydělává více ze složeného úroku (TV 4,5 %), než vyplácí nájemci v jednoduchém (5 %). <strong>S&P 500 (9 %):</strong> pronajímatel je v plusu od prvního roku. Princip: jednoduché úročení kauce roste lineárně, složené úročení investic roste exponenciálně — pronajímatel má vždy výhodu.`;
+        document.getElementById('tvDiffYear5').textContent = fmtSign(tvNet5);
+        document.getElementById('spNetCallout').textContent = fmtSign(
+            (D * Math.pow(1 + R_SP, 10) - D) - D * R_SIMPLE * 10
+        );
 
         /* ---- VIEW TOGGLE ---- */
         function showView(view) {
@@ -696,7 +703,7 @@
                             fill: false
                         },
                         {
-                            label: 'TV 4,5 % compound',
+                            label: 'TV 3 % compound',
                             data: dataTV,
                             borderColor: '#34d399',
                             backgroundColor: 'rgba(52,211,153,0.08)',
