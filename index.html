@@ -3,95 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vratná kauce — Porovnanie úročenia 85 000 CZK</title>
+    <title>Analýza kauce — Nájemní byt</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+
         :root {
-            --bg: #0f172a;
-            --surface: #1e293b;
-            --surface-hover: #334155;
-            --border: #334155;
-            --text: #f1f5f9;
-            --text-muted: #94a3b8;
-            --accent: #38bdf8;
-            --green: #4ade80;
-            --orange: #fb923c;
+            --bg: #0a0e1a;
+            --surface: #111827;
+            --surface-2: #1a2236;
+            --border: #1f2937;
+            --border-light: #2a3548;
+            --text: #e8ecf4;
+            --text-muted: #8896ab;
+            --gold: #c9a84c;
+            --gold-dim: rgba(201, 168, 76, 0.15);
+            --blue: #60a5fa;
+            --green: #6ee7b7;
+            --green-bright: #34d399;
+            --orange: #fbbf24;
             --red: #f87171;
-            --highlight-bg: rgba(56, 189, 248, 0.08);
-            --highlight-border: rgba(56, 189, 248, 0.3);
+            --purple: #a78bfa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
-            padding: 2rem 1rem;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-        }
-
-        h1 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, var(--accent), var(--green));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 0.95rem;
+            padding: 3rem 1.5rem;
             line-height: 1.6;
         }
 
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* ---- HEADER ---- */
+        .tag {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.75rem;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.2;
+            margin-bottom: 0.25rem;
+        }
+
+        h1 .accent {
+            color: var(--green-bright);
+            display: block;
+            font-size: 1.8rem;
+        }
+
+        .desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.75rem;
+            max-width: 640px;
+        }
+
+        /* ---- PARAM CARDS ---- */
         .params {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin: 1.5rem 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.75rem;
+            margin: 2rem 0;
         }
 
         .param-card {
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 1rem 1.5rem;
-            text-align: center;
-            min-width: 160px;
+            padding: 1.1rem 1.25rem;
         }
 
         .param-card .label {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
             color: var(--text-muted);
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.35rem;
         }
 
-        .param-card .value {
-            font-size: 1.35rem;
+        .param-card .val {
+            font-size: 1.4rem;
             font-weight: 700;
         }
 
-        .param-card .value.blue { color: var(--accent); }
-        .param-card .value.green { color: var(--green); }
-        .param-card .value.orange { color: var(--orange); }
+        .param-card .sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.15rem;
+        }
 
+        .val-white { color: var(--text); }
+        .val-blue  { color: var(--blue); }
+        .val-green { color: var(--green-bright); }
+        .val-orange { color: var(--orange); }
+
+        /* ---- BOD ZVRATU ---- */
+        .callout {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--gold);
+            border-radius: 12px;
+            padding: 1.1rem 1.4rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+        }
+
+        .callout-icon {
+            font-size: 1.4rem;
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+        }
+
+        .callout-text {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.55;
+        }
+
+        .callout-text strong {
+            color: var(--text);
+        }
+
+        .callout-text .gold {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* ---- TABS ---- */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .tab {
+            padding: 0.5rem 1.25rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .tab:hover { border-color: var(--border-light); color: var(--text); }
+
+        .tab.active {
+            background: var(--surface-2);
+            border-color: var(--border-light);
+            color: var(--text);
+        }
+
+        /* ---- TABLE ---- */
         .table-wrapper {
             overflow-x: auto;
-            border-radius: 16px;
+            border-radius: 12px;
             border: 1px solid var(--border);
             background: var(--surface);
         }
@@ -99,247 +186,385 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         thead th {
-            background: var(--bg);
-            padding: 0.85rem 1rem;
+            padding: 0.85rem 0.9rem;
             text-align: right;
             font-weight: 600;
-            font-size: 0.78rem;
+            font-size: 0.68rem;
             text-transform: uppercase;
-            letter-spacing: 0.04em;
+            letter-spacing: 0.06em;
             color: var(--text-muted);
-            border-bottom: 2px solid var(--border);
-            position: sticky;
-            top: 0;
+            border-bottom: 1px solid var(--border);
             white-space: nowrap;
         }
 
         thead th:first-child {
             text-align: center;
-            width: 60px;
+            width: 55px;
         }
 
         tbody td {
-            padding: 0.7rem 1rem;
+            padding: 0.65rem 0.9rem;
             text-align: right;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid rgba(31,41,55,0.6);
             font-variant-numeric: tabular-nums;
             white-space: nowrap;
+            font-size: 0.88rem;
         }
 
         tbody td:first-child {
             text-align: center;
-            font-weight: 700;
+            font-weight: 600;
             color: var(--text-muted);
+            font-size: 0.82rem;
         }
 
-        tbody tr:hover {
-            background: var(--surface-hover);
-        }
+        tbody tr:hover { background: rgba(255,255,255,0.02); }
 
         tbody tr.highlight {
-            background: var(--highlight-bg);
-            border-top: 1px solid var(--highlight-border);
-            border-bottom: 1px solid var(--highlight-border);
+            background: var(--gold-dim);
         }
 
         tbody tr.highlight td {
-            font-weight: 700;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(201,168,76,0.2);
         }
 
         tbody tr.highlight td:first-child {
-            color: var(--accent);
+            color: var(--gold);
+        }
+
+        .star::after { content: " ★"; font-size: 0.55rem; vertical-align: super; }
+
+        .c-white  { color: var(--text); }
+        .c-blue   { color: var(--blue); }
+        .c-green  { color: var(--green); }
+        .c-orange { color: var(--orange); }
+        .c-red    { color: var(--red); }
+        .c-muted  { color: var(--text-muted); }
+        .c-pos    { color: var(--green-bright); }
+        .c-neg    { color: var(--red); }
+
+        /* ---- CHART ---- */
+        .chart-container {
+            display: none;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
             position: relative;
+            height: 380px;
         }
 
-        tbody tr.highlight td:first-child::before {
-            content: "★ ";
-            font-size: 0.7rem;
+        .chart-container canvas {
+            width: 100% !important;
+            height: 100% !important;
         }
 
-        .col-deposit { color: var(--accent); }
-        .col-term { color: var(--green); }
-        .col-sp500 { color: var(--orange); }
-        .col-diff-term { color: var(--text-muted); font-size: 0.82rem; }
-        .col-diff-sp500 { color: var(--text-muted); font-size: 0.82rem; }
-
-        .positive { color: var(--green) !important; }
-        .negative { color: var(--red) !important; }
-
+        /* ---- ARGUMENT BOX ---- */
         .argument-box {
             margin-top: 2rem;
             background: var(--surface);
-            border: 1px solid var(--highlight-border);
-            border-radius: 16px;
-            padding: 1.5rem 2rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem 1.75rem;
         }
 
         .argument-box h2 {
-            font-size: 1.1rem;
-            color: var(--accent);
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.15rem;
+            color: var(--gold);
             margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
 
-        .argument-box ul {
-            list-style: none;
-            padding: 0;
-        }
+        .argument-box ul { list-style: none; }
 
         .argument-box li {
-            padding: 0.5rem 0;
-            padding-left: 1.2rem;
+            padding: 0.45rem 0;
+            padding-left: 1.5rem;
             position: relative;
             color: var(--text-muted);
-            line-height: 1.5;
+            font-size: 0.88rem;
+            line-height: 1.55;
         }
 
         .argument-box li::before {
             content: "→";
             position: absolute;
             left: 0;
-            color: var(--accent);
+            color: var(--gold);
+            font-weight: 600;
         }
 
-        .argument-box strong {
-            color: var(--text);
-        }
+        .argument-box strong { color: var(--text); }
 
+        /* ---- FOOTER ---- */
         footer {
             text-align: center;
-            margin-top: 2rem;
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
             color: var(--text-muted);
-            font-size: 0.75rem;
+            font-size: 0.72rem;
+            line-height: 1.6;
         }
 
         @media (max-width: 640px) {
-            body { padding: 1rem 0.5rem; }
-            h1 { font-size: 1.3rem; }
-            .params { gap: 0.5rem; }
-            .param-card { min-width: 130px; padding: 0.75rem 1rem; }
-            table { font-size: 0.78rem; }
-            thead th, tbody td { padding: 0.5rem 0.6rem; }
+            body { padding: 1.5rem 0.75rem; }
+            h1 { font-size: 1.5rem; }
+            h1 .accent { font-size: 1.25rem; }
+            .params { grid-template-columns: 1fr 1fr; }
+            table { font-size: 0.76rem; }
+            tbody td { font-size: 0.78rem; }
+            thead th, tbody td { padding: 0.5rem 0.5rem; }
+            .chart-container { height: 280px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Vratná kauce — Porovnanie úročenia</h1>
-            <p class="subtitle">
-                Koľko by mal majiteľ vrátiť, ak sa kauce úročí 5 % ročne?<br>
-                A koľko by on sám zarobil, keby tie peniaze investoval?
-            </p>
-        </header>
 
+        <!-- HEADER -->
+        <div class="tag">Analýza kauce — nájemní byt</div>
+        <h1>
+            Kauce 85 000 Kč
+            <span class="accent">Proč požadujeme 5% úročení</span>
+        </h1>
+        <p class="desc">
+            Co musí pronajímatel vrátit nájemci &middot; vs. co sám vydělá,
+            pokud kauci uloží na termínovaný vklad nebo investuje do S&P 500 ETF.
+        </p>
+
+        <!-- PARAMS -->
         <div class="params">
             <div class="param-card">
                 <div class="label">Kauce</div>
-                <div class="value blue">85 000 CZK</div>
+                <div class="val val-white">85 000 Kč</div>
+                <div class="sub">jistina</div>
             </div>
             <div class="param-card">
-                <div class="label">Úročenie kauce</div>
-                <div class="value blue">5,0 % p.a.</div>
+                <div class="label">Sazba pro nájemce</div>
+                <div class="val val-blue">5,0 % p.a.</div>
+                <div class="sub">jednoduché úročení</div>
             </div>
             <div class="param-card">
                 <div class="label">Termínovaný vklad</div>
-                <div class="value green">4,0 % p.a.</div>
+                <div class="val val-green">4,5 % p.a.</div>
+                <div class="sub">složené (compound)</div>
             </div>
             <div class="param-card">
                 <div class="label">S&P 500 ETF</div>
-                <div class="value orange">10,0 % p.a.</div>
+                <div class="val val-orange">10,0 % p.a.</div>
+                <div class="sub">složené (compound)</div>
             </div>
         </div>
 
-        <div class="table-wrapper">
+        <!-- BOD ZVRATU -->
+        <div class="callout">
+            <div class="callout-icon">⚖️</div>
+            <div class="callout-text" id="calloutText">
+                <span class="gold">Bod zvratu: rok —</span> — od tohoto roku pronajímatel na kauci čistí
+                více ze složeného úroku na TV, než vyplácí nájemci v jednoduchém.
+                <strong>S&P 500:</strong> pronajímatel je v plusu od prvního roku.
+                Argument pro 5 %: pronajímatel má vždy výhodu z rozdílu compound vs. simple.
+            </div>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab active" onclick="showView('table')">Tabulka</button>
+            <button class="tab" onclick="showView('chart')">Graf</button>
+        </div>
+
+        <!-- TABLE -->
+        <div class="table-wrapper" id="tableView">
             <table>
                 <thead>
                     <tr>
                         <th>Rok</th>
-                        <th>Kauce 5 %<br><small>nájomca dostane späť</small></th>
-                        <th>Termín. vklad 4 %<br><small>majiteľ zarobí</small></th>
-                        <th>Rozdiel<br><small>TV − kauce</small></th>
-                        <th>S&P 500 ETF 10 %<br><small>majiteľ zarobí</small></th>
-                        <th>Rozdiel<br><small>S&P − kauce</small></th>
+                        <th>Vrátit nájemci</th>
+                        <th>Úroky pro nájemce</th>
+                        <th>TV zisk pronajímatele</th>
+                        <th>Čistý rozdíl (TV)</th>
+                        <th>S&P 500 zisk</th>
+                        <th>Čistý rozdíl (S&P)</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody">
-                </tbody>
+                <tbody id="tableBody"></tbody>
             </table>
         </div>
 
+        <!-- CHART -->
+        <div class="chart-container" id="chartView">
+            <canvas id="chart"></canvas>
+        </div>
+
+        <!-- ARGUMENTACE -->
         <div class="argument-box">
-            <h2>💡 Argumentácia pre vyjednávanie</h2>
+            <h2>Argumentace pro vyjednávání</h2>
             <ul>
-                <li>Kauce <strong>85 000 CZK</strong> ležiaca bez úroku stráca kúpnu silu — pri inflácii ~3 % je to <strong>reálna strata ~2 550 CZK ročne</strong> pre nájomcu.</li>
-                <li>Požiadavka <strong>5 % úročenia</strong> je férová — pokrýva infláciu + minimálny výnos. Majiteľ môže peniaze investovať a zarobiť viac.</li>
-                <li>Ak majiteľ uloží kauciu na <strong>termínovaný vklad (4 %)</strong>, po 5 rokoch má <strong id="tvProfit5">—</strong> čistého zisku, po 10 rokoch <strong id="tvProfit10">—</strong>.</li>
-                <li>Ak investuje do <strong>S&P 500 ETF (~10 %)</strong>, po 5 rokoch má <strong id="spProfit5">—</strong> čistého zisku, po 10 rokoch <strong id="spProfit10">—</strong>.</li>
-                <li>Úročenie kauce <strong>5 %</strong> je teda <strong>win-win</strong>: nájomca neprichádza o kúpnu silu a majiteľ stále zarába na rozdiele.</li>
+                <li>Kauce <strong>85 000 Kč</strong> bez úroku ztrácí kupní sílu — při inflaci ~3 % jde o <strong>reálnou ztrátu ~2 550 Kč ročně</strong> pro nájemce.</li>
+                <li>Požadavek <strong>5 % jednoduchého úročení</strong> je férový — pokrývá inflaci + minimální výnos. Pronajímatel může peníze investovat a vydělat víc.</li>
+                <li>Pokud pronajímatel uloží kauci na <strong>termínovaný vklad (4,5 %)</strong>, od <strong id="breakEvenText">roku —</strong> vydělává víc, než vyplácí nájemci. Po 10 letech čistý zisk pronajímatele: <strong id="tvNet10">—</strong>.</li>
+                <li>Při investici do <strong>S&P 500 ETF (~10 %)</strong> je pronajímatel v plusu <strong>od prvního roku</strong>. Po 10 letech čistý zisk: <strong id="spNet10">—</strong>.</li>
+                <li>Úročení kauce <strong>5 %</strong> je tedy <strong>win-win</strong>: nájemce nepřichází o kupní sílu, pronajímatel stále vydělává na rozdílu složeného vs. jednoduchého úročení.</li>
             </ul>
         </div>
 
         <footer>
-            <p>Výpočet používa compound interest (zložené úročenie). Hodnoty S&P 500 vychádzajú z historického priemeru ~10 % p.a. Skutočné výnosy sa môžu líšiť.</p>
+            <p>Nájemce: jednoduché úročení 5 % p.a. &middot; Pronajímatel: složené (compound) úročení.<br>
+            Hodnoty S&P 500 vychází z historického průměru ~10 % p.a. Skutečné výnosy se mohou lišit.<br>
+            Termínovaný vklad 4,5 % odpovídá průměrné sazbě v ČR (2024–2026).</p>
         </footer>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
     <script>
-        const DEPOSIT = 85000;
-        const RATE_KAUCE = 0.05;
-        const RATE_TERM = 0.04;
-        const RATE_SP500 = 0.10;
+        const D = 85000;
+        const R_SIMPLE = 0.05;
+        const R_TV = 0.045;
+        const R_SP = 0.10;
         const YEARS = 15;
-        const HIGHLIGHT_YEARS = [5, 10];
+        const HIGHLIGHTS = new Set([1, 2, 3, 5, 10]);
 
-        function fmt(n) {
-            return Math.round(n).toLocaleString('cs-CZ') + ' CZK';
-        }
-
-        function fmtDiff(n) {
-            const sign = n >= 0 ? '+' : '';
-            return sign + Math.round(n).toLocaleString('cs-CZ') + ' CZK';
-        }
+        const fmt = n => Math.round(n).toLocaleString('cs-CZ') + ' Kč';
+        const fmtSign = n => (n >= 0 ? '+' : '') + Math.round(n).toLocaleString('cs-CZ') + ' Kč';
 
         const tbody = document.getElementById('tableBody');
+        const labels = [], dataSimple = [], dataTV = [], dataSP = [];
+        let breakEvenYear = null;
 
         for (let y = 1; y <= YEARS; y++) {
-            const kauce = DEPOSIT * Math.pow(1 + RATE_KAUCE, y);
-            const term = DEPOSIT * Math.pow(1 + RATE_TERM, y);
-            const sp500 = DEPOSIT * Math.pow(1 + RATE_SP500, y);
+            const simpleTotal = D + D * R_SIMPLE * y;
+            const simpleInterest = D * R_SIMPLE * y;
+            const tvTotal = D * Math.pow(1 + R_TV, y);
+            const tvProfit = tvTotal - D;
+            const spTotal = D * Math.pow(1 + R_SP, y);
+            const spProfit = spTotal - D;
 
-            const diffTerm = term - kauce;
-            const diffSp500 = sp500 - kauce;
+            const tvNet = tvProfit - simpleInterest;
+            const spNet = spProfit - simpleInterest;
 
-            const isHighlight = HIGHLIGHT_YEARS.includes(y);
+            if (breakEvenYear === null && tvNet >= 0) breakEvenYear = y;
 
+            labels.push(y);
+            dataSimple.push(Math.round(simpleTotal));
+            dataTV.push(Math.round(tvTotal));
+            dataSP.push(Math.round(spTotal));
+
+            const hl = HIGHLIGHTS.has(y);
             const tr = document.createElement('tr');
-            if (isHighlight) tr.classList.add('highlight');
+            if (hl) tr.classList.add('highlight');
 
             tr.innerHTML = `
-                <td>${y}</td>
-                <td class="col-deposit">${fmt(kauce)}</td>
-                <td class="col-term">${fmt(term)}</td>
-                <td class="col-diff-term ${diffTerm >= 0 ? 'positive' : 'negative'}">${fmtDiff(diffTerm)}</td>
-                <td class="col-sp500">${fmt(sp500)}</td>
-                <td class="col-diff-sp500 ${diffSp500 >= 0 ? 'positive' : 'negative'}">${fmtDiff(diffSp500)}</td>
+                <td class="${hl ? 'star' : ''}">${y}</td>
+                <td class="c-white">${fmt(simpleTotal)}</td>
+                <td class="c-blue">${fmt(simpleInterest)}</td>
+                <td class="c-green">${fmt(tvProfit)}</td>
+                <td class="${tvNet >= 0 ? 'c-pos' : 'c-neg'}">${fmtSign(tvNet)}</td>
+                <td class="c-orange">${fmt(spProfit)}</td>
+                <td class="c-pos">${fmtSign(spNet)}</td>
             `;
-
             tbody.appendChild(tr);
 
-            if (y === 5) {
-                document.getElementById('tvProfit5').textContent = fmtDiff(term - DEPOSIT);
-                document.getElementById('spProfit5').textContent = fmtDiff(sp500 - DEPOSIT);
-            }
             if (y === 10) {
-                document.getElementById('tvProfit10').textContent = fmtDiff(term - DEPOSIT);
-                document.getElementById('spProfit10').textContent = fmtDiff(sp500 - DEPOSIT);
+                document.getElementById('tvNet10').textContent = fmtSign(tvNet);
+                document.getElementById('spNet10').textContent = fmtSign(spNet);
             }
+        }
+
+        document.getElementById('breakEvenText').textContent = `roku ${breakEvenYear}`;
+        document.getElementById('calloutText').innerHTML =
+            `<span class="gold">Bod zvratu: rok ${breakEvenYear}</span> — od tohoto roku pronajímatel na kauci čistí více ze složeného úroku (TV 4,5 %), než vyplácí nájemci v jednoduchém (5 %). <strong>S&P 500:</strong> pronajímatel je v plusu od prvního roku. Argument pro 5 %: pronajímatel má vždy výhodu z rozdílu compound vs. simple.`;
+
+        /* ---- VIEW TOGGLE ---- */
+        function showView(view) {
+            document.getElementById('tableView').style.display = view === 'table' ? '' : 'none';
+            document.getElementById('chartView').style.display = view === 'chart' ? 'block' : 'none';
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            if (view === 'chart' && !window._chartInit) initChart();
+        }
+
+        function initChart() {
+            window._chartInit = true;
+            const ctx = document.getElementById('chart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [
+                        {
+                            label: 'Vrátit nájemci (5 % simple)',
+                            data: dataSimple,
+                            borderColor: '#60a5fa',
+                            backgroundColor: 'rgba(96,165,250,0.08)',
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            tension: 0.3,
+                            fill: false
+                        },
+                        {
+                            label: 'TV 4,5 % compound',
+                            data: dataTV,
+                            borderColor: '#34d399',
+                            backgroundColor: 'rgba(52,211,153,0.08)',
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            tension: 0.3,
+                            fill: false
+                        },
+                        {
+                            label: 'S&P 500 10 % compound',
+                            data: dataSP,
+                            borderColor: '#fbbf24',
+                            backgroundColor: 'rgba(251,191,36,0.08)',
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            tension: 0.3,
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { intersect: false, mode: 'index' },
+                    plugins: {
+                        legend: {
+                            labels: { color: '#8896ab', font: { size: 12 } }
+                        },
+                        tooltip: {
+                            backgroundColor: '#1a2236',
+                            titleColor: '#e8ecf4',
+                            bodyColor: '#8896ab',
+                            borderColor: '#2a3548',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toLocaleString('cs-CZ') + ' Kč'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'Rok', color: '#8896ab' },
+                            ticks: { color: '#8896ab' },
+                            grid: { color: 'rgba(31,41,55,0.5)' }
+                        },
+                        y: {
+                            title: { display: true, text: 'Kč', color: '#8896ab' },
+                            ticks: {
+                                color: '#8896ab',
+                                callback: v => (v / 1000).toFixed(0) + 'k'
+                            },
+                            grid: { color: 'rgba(31,41,55,0.5)' }
+                        }
+                    }
+                }
+            });
         }
     </script>
 </body>
