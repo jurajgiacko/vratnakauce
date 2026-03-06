@@ -272,6 +272,30 @@
         .c-pos    { color: var(--green-bright); }
         .c-neg    { color: var(--red); }
 
+        /* ---- SCROLL HINT ---- */
+        .scroll-hint {
+            display: none;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            animation: fadeInOut 3s ease-in-out infinite;
+        }
+
+        .scroll-hint span {
+            display: inline-block;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 0.3rem 1rem;
+            letter-spacing: 0.03em;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
         /* ---- CHART ---- */
         .chart-container {
             display: none;
@@ -503,6 +527,9 @@
         </div>
 
         <!-- TABLE -->
+        <div class="scroll-hint" id="scrollHint">
+            <span>← Posuňte tabulku →</span>
+        </div>
         <div class="table-wrapper" id="tableView">
             <table>
                 <thead>
@@ -723,6 +750,20 @@
                 }
             });
         }
+        const tw = document.getElementById('tableView');
+        const sh = document.getElementById('scrollHint');
+        function checkScroll() {
+            if (tw.scrollWidth > tw.clientWidth + 8) {
+                sh.style.display = 'block';
+            } else {
+                sh.style.display = 'none';
+            }
+        }
+        checkScroll();
+        window.addEventListener('resize', checkScroll);
+        tw.addEventListener('scroll', function () {
+            sh.style.display = 'none';
+        }, { once: true });
     </script>
 </body>
 </html>
