@@ -288,42 +288,94 @@
             height: 100% !important;
         }
 
-        /* ---- ARGUMENT BOX ---- */
-        .argument-box {
+        /* ---- SUMMARY BOX ---- */
+        .summary-box {
             margin-top: 2rem;
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 1.5rem 1.75rem;
+            padding: 1.75rem 2rem;
         }
 
-        .argument-box h2 {
+        .summary-box h2 {
             font-family: 'Playfair Display', Georgia, serif;
-            font-size: 1.15rem;
+            font-size: 1.3rem;
             color: var(--gold);
             margin-bottom: 1rem;
         }
 
-        .argument-box ul { list-style: none; }
-
-        .argument-box li {
-            padding: 0.45rem 0;
-            padding-left: 1.5rem;
-            position: relative;
+        .summary-lead {
             color: var(--text-muted);
-            font-size: 0.88rem;
-            line-height: 1.55;
+            font-size: 0.92rem;
+            line-height: 1.65;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border);
         }
 
-        .argument-box li::before {
-            content: "→";
-            position: absolute;
-            left: 0;
+        .summary-lead strong { color: var(--text); }
+
+        .summary-points {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .summary-point {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .sp-icon {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--surface-2);
+            border: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-top: 0.1rem;
+        }
+
+        .highlight-point .sp-icon {
+            background: var(--gold-dim);
+            border-color: var(--gold);
             color: var(--gold);
-            font-weight: 600;
+            font-size: 0.8rem;
         }
 
-        .argument-box strong { color: var(--text); }
+        .sp-title {
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: var(--text);
+            margin-bottom: 0.2rem;
+        }
+
+        .sp-desc {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .sp-desc strong { color: var(--text); }
+
+        .highlight-point {
+            background: var(--gold-dim);
+            border: 1px solid rgba(201, 168, 76, 0.25);
+            border-radius: 10px;
+            padding: 1rem 1.1rem;
+            margin-top: 0.25rem;
+        }
+
+        .highlight-point .sp-title {
+            color: var(--gold);
+        }
 
         /* ---- FOOTER ---- */
         footer {
@@ -435,17 +487,50 @@
             <canvas id="chart"></canvas>
         </div>
 
-        <!-- ARGUMENTACE -->
-        <div class="argument-box">
-            <h2>Argumentace pro vyjednávání</h2>
-            <ul>
-                <li>Kauce <strong>85 000 Kč</strong> bez úroku ztrácí kupní sílu — při inflaci ~3 % jde o <strong>reálnou ztrátu ~2 550 Kč ročně</strong> pro nájemce.</li>
-                <li>Požadavek <strong>5 % jednoduchého úročení</strong> je férový — pokrývá inflaci + minimální výnos. Pronajímatel může peníze investovat a vydělat víc.</li>
-                <li>Pokud pronajímatel uloží kauci na <strong>termínovaný vklad (4,5 %)</strong>, od <strong id="breakEvenText">roku —</strong> vydělává víc, než vyplácí nájemci. Po 10 letech čistý zisk pronajímatele: <strong id="tvNet10">—</strong>.</li>
-                <li>Při investici do <strong>S&P 500 ETF (~9 %)</strong> je pronajímatel v plusu <strong>od prvního roku</strong>. Po 10 letech čistý zisk: <strong id="spNet10">—</strong>.</li>
-                <li>Klíčový princip: kauce se úročí <strong>jednoduše</strong> (lineárně), zatímco investice rostou <strong>složeně</strong> (exponenciálně). Čím déle nájem trvá, tím více pronajímatel vydělává.</li>
-                <li>Úročení kauce <strong>5 %</strong> je tedy <strong>win-win</strong>: nájemce nepřichází o kupní sílu, pronajímatel stále vydělává na rozdílu složeného vs. jednoduchého úročení.</li>
-            </ul>
+        <!-- SHRNUTÍ -->
+        <div class="summary-box">
+            <h2>Shrnutí</h2>
+            <p class="summary-lead">
+                Navrhujeme, aby byla kauce <strong>85 000 Kč</strong> úročena sazbou
+                <strong>5 % p.a.</strong> (jednoduchým úročením). Při ukončení nájmu
+                pronajímatel vrátí jistinu navýšenou o příslušný úrok.
+            </p>
+
+            <div class="summary-points">
+                <div class="summary-point">
+                    <div class="sp-icon">1</div>
+                    <div class="sp-content">
+                        <div class="sp-title">Kauce bez úroku ztrácí hodnotu</div>
+                        <div class="sp-desc">Při inflaci ~3 % přichází nájemce ročně o cca <strong>2 550 Kč</strong> kupní síly. Za 10 let je to přes <strong>25 000 Kč</strong>. Požadavek na úročení je ochranou proti inflaci.</div>
+                    </div>
+                </div>
+                <div class="summary-point">
+                    <div class="sp-icon">2</div>
+                    <div class="sp-content">
+                        <div class="sp-title">Pronajímatel může kauci zhodnotit</div>
+                        <div class="sp-desc">I konzervativní termínovaný vklad (4,5 % p.a., složené úročení) od <strong id="breakEvenText">roku —</strong> generuje pronajímateli víc, než kolik vyplácí nájemci. Po 10 letech čistý zisk pronajímatele: <strong id="tvNet10">—</strong>.</div>
+                    </div>
+                </div>
+                <div class="summary-point">
+                    <div class="sp-icon">3</div>
+                    <div class="sp-content">
+                        <div class="sp-title">Při investici do S&P 500 ještě výhodněji</div>
+                        <div class="sp-desc">Průměrný roční výnos indexu S&P 500 je historicky ~9 %. Pronajímatel je v plusu <strong>od prvního roku</strong>. Po 10 letech čistý zisk: <strong id="spNet10">—</strong>.</div>
+                    </div>
+                </div>
+                <div class="summary-point highlight-point">
+                    <div class="sp-icon">✓</div>
+                    <div class="sp-content">
+                        <div class="sp-title">Výsledek: win-win pro obě strany</div>
+                        <div class="sp-desc">
+                            Nájemce nepřichází o kupní sílu svých peněz. Pronajímatel s kaucí volně disponuje
+                            a díky <strong>složenému úročení</strong> svých investic vždy vydělá více, než kolik
+                            vrací nájemci v <strong>jednoduchém úročení</strong>. Čím déle nájem trvá, tím je
+                            rozdíl výraznější — lineární růst kauce vs. exponenciální růst investice.
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <footer>
