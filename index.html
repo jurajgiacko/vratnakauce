@@ -74,6 +74,30 @@
             max-width: 640px;
         }
 
+        /* ---- METHOD NOTE ---- */
+        .method-note {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
+            margin-top: 1.25rem;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .method-note strong {
+            color: var(--text);
+        }
+
+        .method-label {
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
         /* ---- PARAM CARDS ---- */
         .params {
             display: grid;
@@ -338,6 +362,15 @@
             pokud kauci uloží na termínovaný vklad nebo investuje do S&P 500 ETF.
         </p>
 
+        <div class="method-note">
+            <span class="method-label">Princip výpočtu:</span>
+            Vratná kauce je úročena <strong>jednoduchým úročením</strong> (simple interest) —
+            úrok se počítá vždy z původní jistiny 85 000 Kč.
+            Investice pronajímatele (TV, S&P 500) rostou <strong>složeným úročením</strong> (compound interest) —
+            úrok se každý rok připočítává k jistině a dále se úročí.
+            Díky tomu pronajímatel časem vždy vydělá víc, než vrací nájemci.
+        </div>
+
         <!-- PARAMS -->
         <div class="params">
             <div class="param-card">
@@ -357,7 +390,7 @@
             </div>
             <div class="param-card">
                 <div class="label">S&P 500 ETF</div>
-                <div class="val val-orange">10,0 % p.a.</div>
+                <div class="val val-orange">9,0 % p.a.</div>
                 <div class="sub">složené (compound)</div>
             </div>
         </div>
@@ -409,14 +442,15 @@
                 <li>Kauce <strong>85 000 Kč</strong> bez úroku ztrácí kupní sílu — při inflaci ~3 % jde o <strong>reálnou ztrátu ~2 550 Kč ročně</strong> pro nájemce.</li>
                 <li>Požadavek <strong>5 % jednoduchého úročení</strong> je férový — pokrývá inflaci + minimální výnos. Pronajímatel může peníze investovat a vydělat víc.</li>
                 <li>Pokud pronajímatel uloží kauci na <strong>termínovaný vklad (4,5 %)</strong>, od <strong id="breakEvenText">roku —</strong> vydělává víc, než vyplácí nájemci. Po 10 letech čistý zisk pronajímatele: <strong id="tvNet10">—</strong>.</li>
-                <li>Při investici do <strong>S&P 500 ETF (~10 %)</strong> je pronajímatel v plusu <strong>od prvního roku</strong>. Po 10 letech čistý zisk: <strong id="spNet10">—</strong>.</li>
+                <li>Při investici do <strong>S&P 500 ETF (~9 %)</strong> je pronajímatel v plusu <strong>od prvního roku</strong>. Po 10 letech čistý zisk: <strong id="spNet10">—</strong>.</li>
+                <li>Klíčový princip: kauce se úročí <strong>jednoduše</strong> (lineárně), zatímco investice rostou <strong>složeně</strong> (exponenciálně). Čím déle nájem trvá, tím více pronajímatel vydělává.</li>
                 <li>Úročení kauce <strong>5 %</strong> je tedy <strong>win-win</strong>: nájemce nepřichází o kupní sílu, pronajímatel stále vydělává na rozdílu složeného vs. jednoduchého úročení.</li>
             </ul>
         </div>
 
         <footer>
-            <p>Nájemce: jednoduché úročení 5 % p.a. &middot; Pronajímatel: složené (compound) úročení.<br>
-            Hodnoty S&P 500 vychází z historického průměru ~10 % p.a. Skutečné výnosy se mohou lišit.<br>
+            <p>Vratná kauce: jednoduché úročení 5 % p.a. (úrok vždy z původní jistiny) &middot; Investice pronajímatele: složené úročení (compound interest).<br>
+            S&P 500: dlouhodobý historický průměr ~9 % p.a. (1928–2025). Skutečné výnosy se mohou lišit.<br>
             Termínovaný vklad 4,5 % odpovídá průměrné sazbě v ČR (2024–2026).</p>
         </footer>
     </div>
@@ -426,7 +460,7 @@
         const D = 85000;
         const R_SIMPLE = 0.05;
         const R_TV = 0.045;
-        const R_SP = 0.10;
+        const R_SP = 0.09;
         const YEARS = 15;
         const HIGHLIGHTS = new Set([1, 2, 3, 5, 10]);
 
@@ -478,7 +512,7 @@
 
         document.getElementById('breakEvenText').textContent = `roku ${breakEvenYear}`;
         document.getElementById('calloutText').innerHTML =
-            `<span class="gold">Bod zvratu: rok ${breakEvenYear}</span> — od tohoto roku pronajímatel na kauci čistí více ze složeného úroku (TV 4,5 %), než vyplácí nájemci v jednoduchém (5 %). <strong>S&P 500:</strong> pronajímatel je v plusu od prvního roku. Argument pro 5 %: pronajímatel má vždy výhodu z rozdílu compound vs. simple.`;
+            `<span class="gold">Bod zvratu: rok ${breakEvenYear}</span> — od tohoto roku pronajímatel na kauci čistí více ze složeného úroku (TV 4,5 %), než vyplácí nájemci v jednoduchém (5 %). <strong>S&P 500 (9 %):</strong> pronajímatel je v plusu od prvního roku. Princip: jednoduché úročení kauce roste lineárně, složené úročení investic roste exponenciálně — pronajímatel má vždy výhodu.`;
 
         /* ---- VIEW TOGGLE ---- */
         function showView(view) {
@@ -518,7 +552,7 @@
                             fill: false
                         },
                         {
-                            label: 'S&P 500 10 % compound',
+                            label: 'S&P 500 9 % compound',
                             data: dataSP,
                             borderColor: '#fbbf24',
                             backgroundColor: 'rgba(251,191,36,0.08)',
