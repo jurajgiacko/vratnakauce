@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vratná kauce — Porovnanie úročenia 85 000 CZK</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --surface-hover: #334155;
+            --border: #334155;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --green: #4ade80;
+            --orange: #fb923c;
+            --red: #f87171;
+            --highlight-bg: rgba(56, 189, 248, 0.08);
+            --highlight-border: rgba(56, 189, 248, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .params {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 1.5rem 0 2rem;
+        }
+
+        .param-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            min-width: 160px;
+        }
+
+        .param-card .label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .param-card .value {
+            font-size: 1.35rem;
+            font-weight: 700;
+        }
+
+        .param-card .value.blue { color: var(--accent); }
+        .param-card .value.green { color: var(--green); }
+        .param-card .value.orange { color: var(--orange); }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        thead th {
+            background: var(--bg);
+            padding: 0.85rem 1rem;
+            text-align: right;
+            font-weight: 600;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+            border-bottom: 2px solid var(--border);
+            position: sticky;
+            top: 0;
+            white-space: nowrap;
+        }
+
+        thead th:first-child {
+            text-align: center;
+            width: 60px;
+        }
+
+        tbody td {
+            padding: 0.7rem 1rem;
+            text-align: right;
+            border-bottom: 1px solid var(--border);
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        tbody td:first-child {
+            text-align: center;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        tbody tr:hover {
+            background: var(--surface-hover);
+        }
+
+        tbody tr.highlight {
+            background: var(--highlight-bg);
+            border-top: 1px solid var(--highlight-border);
+            border-bottom: 1px solid var(--highlight-border);
+        }
+
+        tbody tr.highlight td {
+            font-weight: 700;
+        }
+
+        tbody tr.highlight td:first-child {
+            color: var(--accent);
+            position: relative;
+        }
+
+        tbody tr.highlight td:first-child::before {
+            content: "★ ";
+            font-size: 0.7rem;
+        }
+
+        .col-deposit { color: var(--accent); }
+        .col-term { color: var(--green); }
+        .col-sp500 { color: var(--orange); }
+        .col-diff-term { color: var(--text-muted); font-size: 0.82rem; }
+        .col-diff-sp500 { color: var(--text-muted); font-size: 0.82rem; }
+
+        .positive { color: var(--green) !important; }
+        .negative { color: var(--red) !important; }
+
+        .argument-box {
+            margin-top: 2rem;
+            background: var(--surface);
+            border: 1px solid var(--highlight-border);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+        }
+
+        .argument-box h2 {
+            font-size: 1.1rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .argument-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .argument-box li {
+            padding: 0.5rem 0;
+            padding-left: 1.2rem;
+            position: relative;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .argument-box li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .argument-box strong {
+            color: var(--text);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        @media (max-width: 640px) {
+            body { padding: 1rem 0.5rem; }
+            h1 { font-size: 1.3rem; }
+            .params { gap: 0.5rem; }
+            .param-card { min-width: 130px; padding: 0.75rem 1rem; }
+            table { font-size: 0.78rem; }
+            thead th, tbody td { padding: 0.5rem 0.6rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Vratná kauce — Porovnanie úročenia</h1>
+            <p class="subtitle">
+                Koľko by mal majiteľ vrátiť, ak sa kauce úročí 5 % ročne?<br>
+                A koľko by on sám zarobil, keby tie peniaze investoval?
+            </p>
+        </header>
+
+        <div class="params">
+            <div class="param-card">
+                <div class="label">Kauce</div>
+                <div class="value blue">85 000 CZK</div>
+            </div>
+            <div class="param-card">
+                <div class="label">Úročenie kauce</div>
+                <div class="value blue">5,0 % p.a.</div>
+            </div>
+            <div class="param-card">
+                <div class="label">Termínovaný vklad</div>
+                <div class="value green">4,0 % p.a.</div>
+            </div>
+            <div class="param-card">
+                <div class="label">S&P 500 ETF</div>
+                <div class="value orange">10,0 % p.a.</div>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rok</th>
+                        <th>Kauce 5 %<br><small>nájomca dostane späť</small></th>
+                        <th>Termín. vklad 4 %<br><small>majiteľ zarobí</small></th>
+                        <th>Rozdiel<br><small>TV − kauce</small></th>
+                        <th>S&P 500 ETF 10 %<br><small>majiteľ zarobí</small></th>
+                        <th>Rozdiel<br><small>S&P − kauce</small></th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="argument-box">
+            <h2>💡 Argumentácia pre vyjednávanie</h2>
+            <ul>
+                <li>Kauce <strong>85 000 CZK</strong> ležiaca bez úroku stráca kúpnu silu — pri inflácii ~3 % je to <strong>reálna strata ~2 550 CZK ročne</strong> pre nájomcu.</li>
+                <li>Požiadavka <strong>5 % úročenia</strong> je férová — pokrýva infláciu + minimálny výnos. Majiteľ môže peniaze investovať a zarobiť viac.</li>
+                <li>Ak majiteľ uloží kauciu na <strong>termínovaný vklad (4 %)</strong>, po 5 rokoch má <strong id="tvProfit5">—</strong> čistého zisku, po 10 rokoch <strong id="tvProfit10">—</strong>.</li>
+                <li>Ak investuje do <strong>S&P 500 ETF (~10 %)</strong>, po 5 rokoch má <strong id="spProfit5">—</strong> čistého zisku, po 10 rokoch <strong id="spProfit10">—</strong>.</li>
+                <li>Úročenie kauce <strong>5 %</strong> je teda <strong>win-win</strong>: nájomca neprichádza o kúpnu silu a majiteľ stále zarába na rozdiele.</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>Výpočet používa compound interest (zložené úročenie). Hodnoty S&P 500 vychádzajú z historického priemeru ~10 % p.a. Skutočné výnosy sa môžu líšiť.</p>
+        </footer>
+    </div>
+
+    <script>
+        const DEPOSIT = 85000;
+        const RATE_KAUCE = 0.05;
+        const RATE_TERM = 0.04;
+        const RATE_SP500 = 0.10;
+        const YEARS = 15;
+        const HIGHLIGHT_YEARS = [5, 10];
+
+        function fmt(n) {
+            return Math.round(n).toLocaleString('cs-CZ') + ' CZK';
+        }
+
+        function fmtDiff(n) {
+            const sign = n >= 0 ? '+' : '';
+            return sign + Math.round(n).toLocaleString('cs-CZ') + ' CZK';
+        }
+
+        const tbody = document.getElementById('tableBody');
+
+        for (let y = 1; y <= YEARS; y++) {
+            const kauce = DEPOSIT * Math.pow(1 + RATE_KAUCE, y);
+            const term = DEPOSIT * Math.pow(1 + RATE_TERM, y);
+            const sp500 = DEPOSIT * Math.pow(1 + RATE_SP500, y);
+
+            const diffTerm = term - kauce;
+            const diffSp500 = sp500 - kauce;
+
+            const isHighlight = HIGHLIGHT_YEARS.includes(y);
+
+            const tr = document.createElement('tr');
+            if (isHighlight) tr.classList.add('highlight');
+
+            tr.innerHTML = `
+                <td>${y}</td>
+                <td class="col-deposit">${fmt(kauce)}</td>
+                <td class="col-term">${fmt(term)}</td>
+                <td class="col-diff-term ${diffTerm >= 0 ? 'positive' : 'negative'}">${fmtDiff(diffTerm)}</td>
+                <td class="col-sp500">${fmt(sp500)}</td>
+                <td class="col-diff-sp500 ${diffSp500 >= 0 ? 'positive' : 'negative'}">${fmtDiff(diffSp500)}</td>
+            `;
+
+            tbody.appendChild(tr);
+
+            if (y === 5) {
+                document.getElementById('tvProfit5').textContent = fmtDiff(term - DEPOSIT);
+                document.getElementById('spProfit5').textContent = fmtDiff(sp500 - DEPOSIT);
+            }
+            if (y === 10) {
+                document.getElementById('tvProfit10').textContent = fmtDiff(term - DEPOSIT);
+                document.getElementById('spProfit10').textContent = fmtDiff(sp500 - DEPOSIT);
+            }
+        }
+    </script>
+</body>
+</html>
